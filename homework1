@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// 矩陣轉置函數
+void transpose(double *matrix, double *result, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[j * rows + i] = matrix[i * cols + j];
+        }
+    }
+}
+
+// 矩陣相加函數
+void add(double *matrixA, double *matrixB, double *result, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            result[i * cols + j] = matrixA[i * cols + j] + matrixB[i * cols + j];
+        }
+    }
+}
+
+// 矩陣相乘函數
+void multiply(double *matrixA, double *matrixB, double *result, int rowsA, int colsA, int colsB) {
+    for (int i = 0; i < rowsA; i++) {
+        for (int j = 0; j < colsB; j++) {
+            result[i * colsB + j] = 0;
+            for (int k = 0; k < colsA; k++) {
+                result[i * colsB + j] += matrixA[i * colsA + k] * matrixB[k * colsB + j];
+            }
+        }
+    }
+}
+
+// 矩陣打印函數
+void dump(double *matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            printf("%f ", matrix[i * cols + j]);
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int rowsA = 2, colsA = 3;
+    int rowsB = 3, colsB = 2;
+
+    double matrixA[] = {1, 2, 3, 4, 5, 6};
+    double matrixB[] = {7, 8, 9, 10, 11, 12};
+    double resultTranspose[6];
+    double resultAdd[6];
+    double resultMultiply[4];
+
+    printf("矩陣A的轉置:\n");
+    transpose(matrixA, resultTranspose, rowsA, colsA);
+    dump(resultTranspose, colsA, rowsA);
+
+ 
+    printf("\n矩陣A和B相加:\n");
+    add(matrixA, matrixB, resultAdd, rowsA, colsA);
+    dump(resultAdd, rowsA, colsA);
+
+    // 矩陣A和B相乘
+    printf("\n矩陣A和B相乘:\n");
+    multiply(matrixA, matrixB, resultMultiply, rowsA, colsA, colsB);
+    dump(resultMultiply, rowsA, colsB);
+
+    return 0;
+}
